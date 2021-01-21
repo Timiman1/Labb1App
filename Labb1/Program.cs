@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Numerics;
 
 namespace Labb1
 {
@@ -19,40 +18,41 @@ namespace Labb1
         {
             Console.WriteLine("Please enter a string");
             string input = Console.ReadLine();
-            char[] charArray = input.ToCharArray();
-            int notImportant = 0;
-            List<string> myList = new List<string>();
+            char[] charArray = input.ToCharArray(); // dela upp strängen i en char array för enkel genomsökning
+            int notImportant = 0; // något värde att sätta i out parametern för int.TryParse 
+            List<string> stringList = new List<string>();
             for (int i = 0; i < charArray.Length; i++)
             {
-                if (int.TryParse(charArray[i].ToString(), out notImportant)) // om i är en int
+                // om charArray[i] är en int så börjar vi söka igenom hela strängen efter en likadan int
+                if (int.TryParse(charArray[i].ToString(), out notImportant)) 
                 {
-                    for (int j = i + 1; j < charArray.Length; j++) // iterera tills samma int hittas
+                    for (int j = i + 1; j < charArray.Length; j++) 
                     {
-                        if (charArray[i] == charArray[j])
+                        if (charArray[i] == charArray[j]) // om en likadan int kunde hittas
                         {
-                            myList.Add("");
-                            for (int k = i; k <= j; k++)
+                            stringList.Add("");
+                            // vi skapar en sträng av alla chars mellan charArray[i] och charArray[j] som lägger till den i vår lista
+                            for (int k = i; k <= j; k++) 
                             {
-                                myList[myList.Count - 1] += charArray[k];
+                                stringList[stringList.Count - 1] += charArray[k];
                             }
-                            break;
+                            break; // bryt ut ur inner-loopen
                         }
                         else if (!int.TryParse(charArray[j].ToString(), out notImportant))
                         {
-                            break;
+                            break; // bryt ut ur inner-loopen om vi hittar en icke-int
                         }
                     }
                 }
             }
-            long sum = 0;
-            foreach (var item in myList)
+            long sum = 0; // long eftersom summan kan bli väldigt stor
+            foreach (var item in stringList)
             {
                 Console.WriteLine(item);
                 sum += long.Parse(item);
             }
             Console.WriteLine();
             Console.WriteLine("Total = {0}", sum);
-
         }
     }
 }
