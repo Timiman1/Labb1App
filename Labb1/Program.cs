@@ -18,29 +18,25 @@ namespace Labb1
         {
             Console.WriteLine("Please enter a string");
             string input = Console.ReadLine();
-            char[] charArray = input.ToCharArray(); // dela upp strängen i en char array för enkel genomsökning
-            int notImportant = 0; // något värde att sätta i out parametern för int.TryParse 
+            char[] charArray = input.ToCharArray(); // Dela upp strängen i en char array för enkel genomsökning
+            int notImportant; // Någon int-variabel att sätta i out parametern för int.TryParse 
             List<string> stringList = new List<string>();
             for (int i = 0; i < charArray.Length; i++)
             {
-                // om charArray[i] är en int så börjar vi söka igenom hela strängen efter en likadan int
+                // Om charArray[i] är en int så börjar vi söka igenom hela arrayen efter en likadan int
                 if (int.TryParse(charArray[i].ToString(), out notImportant)) 
                 {
                     for (int j = i + 1; j < charArray.Length; j++) 
-                    {
-                        if (charArray[i] == charArray[j]) // om en likadan int kunde hittas
+                    { 
+                        if (charArray[i] == charArray[j]) // Om en likadan int kunde hittas..
                         {
-                            stringList.Add("");
-                            // vi skapar en sträng av alla chars mellan charArray[i] och charArray[j] som lägger till den i vår lista
-                            for (int k = i; k <= j; k++) 
-                            {
-                                stringList[stringList.Count - 1] += charArray[k];
-                            }
-                            break; // bryt ut ur inner-loopen
+                            // så skapar vi en en delsträng av input-strängen som börjar och slutar på samma siffra och lägger till den i vår lista
+                            stringList.Add(input.Substring(i, j - i + 1));
+                            break; // Bryt ut ur inner-loopen
                         }
                         else if (!int.TryParse(charArray[j].ToString(), out notImportant))
                         {
-                            break; // bryt ut ur inner-loopen om vi hittar en icke-int
+                            break; // Bryt ut ur inner-loopen om vi hittar en icke-int
                         }
                     }
                 }
